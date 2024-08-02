@@ -1,0 +1,11 @@
+# My Adapted Detectron2
+
+This project is based on [Detectron2](https://github.com/facebookresearch/detectron2) by Facebook AI Research (FAIR).
+
+## Changes Made
+
+- Added support for 6-channel input (Changed read_input function in the utils from PIL to rasterio)
+
+## License
+
+This project is licensed under the Apache License 2.0. See the LICENSE file for more details.

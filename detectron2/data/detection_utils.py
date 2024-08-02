@@ -9,6 +9,7 @@ import logging
 import numpy as np
 from typing import List, Union
 import pycocotools.mask as mask_util
+import rasterio
 import torch
 from PIL import Image
 
@@ -161,8 +162,8 @@ def _apply_exif_orientation(image):
     if method is not None:
         return image.transpose(method)
     return image
-
-
+    
+# Overwrite Utils function for own import
 def read_image(file_name, format=None):
     """
     Read an image into the given format.
@@ -177,12 +178,18 @@ def read_image(file_name, format=None):
             an HWC image in the given format, which is 0-255, uint8 for
             supported image modes in PIL or "BGR"; float (0-1 for Y) for YUV-BT.601.
     """
-    with PathManager.open(file_name, "rb") as f:
-        image = Image.open(f)
+    with rasterio.open(file_name) as src:
+        image = src.read()
 
         # work around this bug: https://github.com/python-pillow/Pillow/issues/3973
-        image = _apply_exif_orientation(image)
-        return convert_PIL_to_numpy(image, format)
+        #image = _apply_exif_orientation(image)
+
+        # Directly transform to numpy array (does this work?)
+        img_array = np.array(image)
+        
+        # Different possible solution from ChatGPT
+        #image = np.transpose(image, (1, 2, 0))
+        return img_array
 
 
 def check_image_size(dataset_dict, image):

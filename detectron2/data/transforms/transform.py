@@ -139,7 +139,7 @@ class ResizeTransform(Transform):
 
                 #pil_image = Image.fromarray(img)
                 # Instead of pil-image, load in as rasterio
-                pil_image = scipy.misc.toimage(img, cmin=0.0, cmax=255.0)
+                pil_image = cv2.imwrite("dummy_image.tiff" img)
                 #with rasterio.open(img) as src:
                     #pil_image = src.read()
             pil_image = pil_image.resize((self.new_w, self.new_h), interp_method)

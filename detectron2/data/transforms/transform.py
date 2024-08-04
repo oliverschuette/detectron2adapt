@@ -119,6 +119,11 @@ class ResizeTransform(Transform):
             if len(img.shape) > 2 and img.shape[2] == 1:
                 
                 # Here is our current error
+
+                # Seems like the data is just in the wrong format
+                print("Shape of PIL", img.shape)
+                img = np.transpose(img, (1, 2, 0))
+
                 pil_image = Image.fromarray(img[:, :, 0], mode="L")
                 
                 # Instead of pil-image, load in as rasterio

@@ -119,17 +119,17 @@ class ResizeTransform(Transform):
             if len(img.shape) > 2 and img.shape[2] == 1:
                 
                 # Here is our current error
-                #pil_image = Image.fromarray(img[:, :, 0], mode="L")
+                pil_image = Image.fromarray(img[:, :, 0], mode="L")
                 
                 # Instead of pil-image, load in as rasterio
-                print("Dimensions of the Image", img.shape)
-                with rasterio.open(img[:, :, 0]) as src:
-                    pil_image = src.read()
+                #print("Dimensions of the Image", img.shape)
+                #with rasterio.open(img[:, :, 0]) as src:
+                    #pil_image = src.read()
             else:
-                # pil_image = Image.fromarray(img)
+                pil_image = Image.fromarray(img)
                 # Instead of pil-image, load in as rasterio
-                with rasterio.open(img) as src:
-                    pil_image = src.read()
+                #with rasterio.open(img) as src:
+                    #pil_image = src.read()
             pil_image = pil_image.resize((self.new_w, self.new_h), interp_method)
             ret = np.asarray(pil_image)
             if len(img.shape) > 2 and img.shape[2] == 1:

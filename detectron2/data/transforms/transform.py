@@ -125,7 +125,12 @@ class ResizeTransform(Transform):
                 #print("Dimensions of the Image", img.shape)
                 #with rasterio.open(img[:, :, 0]) as src:
                     #pil_image = src.read()
-            else:
+            elif img.shape[2] > 3:
+                print("Shape of PIL", img.shape)
+
+                # Seems like the data is just in the wrong format
+                img = np.transpose(img, (1, 2, 0))
+
                 pil_image = Image.fromarray(img)
                 # Instead of pil-image, load in as rasterio
                 #with rasterio.open(img) as src:

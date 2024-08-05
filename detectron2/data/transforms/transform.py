@@ -143,11 +143,11 @@ class ResizeTransform(Transform):
                 # pil_image = cv2.imwrite("dummy_image.tiff", img)
                 tiff.imwrite("dummy_image.tiff", img)
                 pil_image = tiff.imread("dummy_image.tiff")
-                print("The PIL Image Part 2:" pil_image, "Shape", pil_image.shape)
+                print("The PIL Image Part 2:", pil_image, "Shape", pil_image.shape)
                 #with rasterio.open(img) as src:
                     #pil_image = src.read()
                 
-            print("The width and heigh values:" self.new_w, self.new_h, "As integers:" int(self.new_w), int(self.new_h))
+            print("The width and heigh values:", self.new_w, self.new_h, "As integers:", int(self.new_w), int(self.new_h))
                 
             pil_image = pil_image.resize((int(self.new_w), int(self.new_h)), interp_method)
             ret = np.asarray(pil_image)

@@ -125,6 +125,10 @@ class ResizeTransform(Transform):
                 print("\nShape of PIL Condition I: ", img.shape)
                 img = np.transpose(img, (1, 2, 0))
 
+                # Our loop-hole
+                tiff.imwrite("dummy_image.tiff", img)
+                pil_image = tiff.imread("dummy_image.tiff")
+
                 pil_image = Image.fromarray(img[:, :, 0], mode="L")
                 
                 # Instead of pil-image, load in as rasterio
@@ -154,7 +158,7 @@ class ResizeTransform(Transform):
             print("The interpreter method: ", interp_method)
                 
             # Most probabily we have to imclude the third dimension here
-            pil_image = pil_image.resize((int(pil_image.shape[0]), int(self.new_w), int(self.new_h)), interp_method)
+            #pil_image = pil_image.resize((int(pil_image.shape[0]), int(self.new_w), int(self.new_h)), interp_method)
             ret = np.asarray(pil_image)
             if len(img.shape) > 2 and img.shape[2] == 1:
                 ret = np.expand_dims(ret, -1)

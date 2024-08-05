@@ -122,7 +122,7 @@ class ResizeTransform(Transform):
                 # Here is our current error
 
                 # Seems like the data is just in the wrong format
-                print("Shape of PIL", img.shape)
+                print("Shape of PIL Condition 1", img.shape)
                 img = np.transpose(img, (1, 2, 0))
 
                 pil_image = Image.fromarray(img[:, :, 0], mode="L")
@@ -131,20 +131,25 @@ class ResizeTransform(Transform):
                 #print("Dimensions of the Image", img.shape)
                 #with rasterio.open(img[:, :, 0]) as src:
                     #pil_image = src.read()
-            elif img.shape[2] > 3:
-                print("Shape of PIL", img.shape)
+            else:
+                print("Shape of PIL Condition 2", img.shape)
 
                 # Seems like the data is just in the wrong format
                 img = np.transpose(img, (1, 2, 0))
 
-                #pil_image = Image.fromarray(img)
+                pil_image = Image.fromarray(img[0:3, :, :])
+                print("The PIL Image:" pil_image, "Shape", pil_image.shape)
                 # Instead of pil-image, load in as rasterio
                 # pil_image = cv2.imwrite("dummy_image.tiff", img)
                 tiff.imwrite("dummy_image.tiff", img)
                 pil_image = tiff.imread("dummy_image.tiff")
+                print("The PIL Image Part 2:" pil_image, "Shape", pil_image.shape)
                 #with rasterio.open(img) as src:
                     #pil_image = src.read()
-            pil_image = pil_image.resize((self.new_w, self.new_h), interp_method)
+                
+            print("The width and heigh values:" self.new_w, self.new_h, "As integers:" int(self.new_w), int(self.new_h))
+                
+            pil_image = pil_image.resize((int(self.new_w), int(self.new_h)), interp_method)
             ret = np.asarray(pil_image)
             if len(img.shape) > 2 and img.shape[2] == 1:
                 ret = np.expand_dims(ret, -1)

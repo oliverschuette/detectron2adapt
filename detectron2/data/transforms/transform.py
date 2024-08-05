@@ -122,7 +122,7 @@ class ResizeTransform(Transform):
                 # Here is our current error
 
                 # Seems like the data is just in the wrong format
-                print("Shape of PIL Condition I: ", img.shape)
+                print("\nShape of PIL Condition I: ", img.shape)
                 img = np.transpose(img, (1, 2, 0))
 
                 pil_image = Image.fromarray(img[:, :, 0], mode="L")
@@ -132,25 +132,25 @@ class ResizeTransform(Transform):
                 #with rasterio.open(img[:, :, 0]) as src:
                     #pil_image = src.read()
             else:
-                print("Shape of PIL Condition II: ", img.shape)
+                print("\nShape of PIL Condition II: ", img.shape)
 
                 # Seems like the data is just in the wrong format
                 img = np.transpose(img, (1, 2, 0))
-                print("New shape of the PIL Condition: ", img.shape)
+                print("\nNew shape of the PIL Condition: ", img.shape)
 
                 # Try a direct comparision shape = (260,260)
                 pil_image = Image.fromarray(img[:, :, 0:3], mode="RGB")
-                print("The PIL Image: ", pil_image, "New shape of the PIL Condition: ", pil_image.size)
+                print("\nThe PIL Image: ", pil_image, "\nNew shape of the PIL Condition: ", pil_image.size)
 
                 # Instead of pil-image, load in as rasterio
                 # pil_image = cv2.imwrite("dummy_image.tiff", img)
                 tiff.imwrite("dummy_image.tiff", img)
                 pil_image = tiff.imread("dummy_image.tiff")
-                print("The PIL Image Part II: ", pil_image, "Shape: ", pil_image.shape)
+                print("\nThe PIL Image Part II: ", pil_image, "\nShape: ", pil_image.shape)
                 #with rasterio.open(img) as src:
                     #pil_image = src.read()
                 
-            print("The width and heigh values: ", self.new_w, self.new_h, "As integers:", int(self.new_w), int(self.new_h))
+            print("\nThe width and heigh values: ", self.new_w, self.new_h, "\nAs integers:", int(self.new_w), int(self.new_h))
                 
             # Most probabily we have to imclude the third dimension here
             pil_image = pil_image.resize((int(self.new_w), int(self.new_h)), interp_method)

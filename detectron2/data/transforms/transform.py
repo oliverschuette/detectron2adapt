@@ -137,7 +137,9 @@ class ResizeTransform(Transform):
                 # Seems like the data is just in the wrong format
                 img = np.transpose(img, (1, 2, 0))
 
-                pil_image = Image.fromarray(img)
+                # Try a direct comparision
+                pil_image = Image.fromarray(img[:, :, 0:3], mode="BGR")
+                print("New shape of the PIL Condition", img.shape)
                 print("The PIL Image:", pil_image, "Shape", pil_image.shape)
                 # Instead of pil-image, load in as rasterio
                 # pil_image = cv2.imwrite("dummy_image.tiff", img)

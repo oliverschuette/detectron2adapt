@@ -604,7 +604,7 @@ def _test_loader_from_config(cfg, dataset_name, mapper=None):
         ),
     )
     if mapper is None:
-        mapper = DatasetMapper(cfg, False)
+        mapper = DatasetMapper(cfg, False,  image_format = "TIFF")
     return {
         "dataset": dataset,
         "mapper": mapper,

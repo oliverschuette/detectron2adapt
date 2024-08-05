@@ -146,14 +146,15 @@ class ResizeTransform(Transform):
                 # pil_image = cv2.imwrite("dummy_image.tiff", img)
                 tiff.imwrite("dummy_image.tiff", img)
                 pil_image = tiff.imread("dummy_image.tiff")
-                print("\nThe PIL Image Part II: ", pil_image, "\nShape: ", pil_image.shape)
+                print("\nThe PIL Image Part II: ", pil_image, "\nShape Part II: ", pil_image.shape)
                 #with rasterio.open(img) as src:
                     #pil_image = src.read()
                 
             print("\nThe width and heigh values: ", self.new_w, self.new_h, "\nAs integers:", int(self.new_w), int(self.new_h))
+            print("The interpreter method: ", interp_method)
                 
             # Most probabily we have to imclude the third dimension here
-            pil_image = pil_image.resize((int(self.new_w), int(self.new_h)), interp_method)
+            pil_image = pil_image.resize((int(pil_image[0]), int(self.new_w), int(self.new_h)), interp_method)
             ret = np.asarray(pil_image)
             if len(img.shape) > 2 and img.shape[2] == 1:
                 ret = np.expand_dims(ret, -1)

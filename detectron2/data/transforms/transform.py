@@ -122,44 +122,46 @@ class ResizeTransform(Transform):
                 # Here is our current error
 
                 # Seems like the data is just in the wrong format
-                print("\nShape of PIL Condition I: ", img.shape)
+                #print("\nShape of PIL Condition I: ", img.shape)
                 img = np.transpose(img, (1, 2, 0))
 
                 # Our loop-hole
-                tiff.imwrite("dummy_image.tiff", img)
-                pil_image = tiff.imread("dummy_image.tiff")
+                pil_image = img
+                #tiff.imwrite("dummy_image.tiff", img)
+                #pil_image = tiff.imread("dummy_image.tiff")
 
-                pil_image = Image.fromarray(img[:, :, 0], mode="L")
+                #pil_image = Image.fromarray(img[:, :, 0], mode="L")
                 
                 # Instead of pil-image, load in as rasterio
                 #print("Dimensions of the Image", img.shape)
                 #with rasterio.open(img[:, :, 0]) as src:
                     #pil_image = src.read()
             else:
-                print("\nShape of PIL Condition II: ", img.shape)
+                #print("\nShape of PIL Condition II: ", img.shape)
 
                 # Seems like the data is just in the wrong format
                 img = np.transpose(img, (1, 2, 0))
-                print("\nNew shape of the PIL Condition: ", img.shape)
+                pil_image = img
+                #print("\nNew shape of the PIL Condition: ", img.shape)
 
                 # Try a direct comparision shape = (260,260)
-                pil_image = Image.fromarray(img[:, :, 0:3], mode="RGB")
-                print("\nThe PIL Image: ", pil_image, "\nNew shape of the PIL Condition: ", pil_image.size)
+                #pil_image = Image.fromarray(img[:, :, 0:3], mode="RGB")
+                #print("\nThe PIL Image: ", pil_image, "\nNew shape of the PIL Condition: ", pil_image.size)
 
                 # Instead of pil-image, load in as rasterio
                 # pil_image = cv2.imwrite("dummy_image.tiff", img)
-                tiff.imwrite("dummy_image.tiff", img)
-                pil_image = tiff.imread("dummy_image.tiff")
-                print("\nThe PIL Image Part II: ", pil_image, "\nShape Part II: ", pil_image.shape)
+                #.imwrite("dummy_image.tiff", img)
+                #pil_image = tiff.imread("dummy_image.tiff")
+                #print("\nThe PIL Image Part II: ", pil_image, "\nShape Part II: ", pil_image.shape)
                 #with rasterio.open(img) as src:
                     #pil_image = src.read()
                 
-            print("\nThe width and heigh values: ", self.new_w, self.new_h, "\nAs integers:", int(self.new_w), int(self.new_h))
-            print("The interpreter method: ", interp_method)
+            #print("\nThe width and heigh values: ", self.new_w, self.new_h, "\nAs integers:", int(self.new_w), int(self.new_h))
+            #print("The interpreter method: ", interp_method)
                 
             # Most probabily we have to imclude the third dimension here
             #pil_image = pil_image.resize((int(pil_image.shape[0]), int(self.new_w), int(self.new_h)), interp_method)
-            ret = np.asarray(pil_image)
+            ret = pil_image #np.asarray(pil_image)
             if len(img.shape) > 2 and img.shape[2] == 1:
                 ret = np.expand_dims(ret, -1)
         else:

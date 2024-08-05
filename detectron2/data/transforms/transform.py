@@ -138,7 +138,7 @@ class ResizeTransform(Transform):
                 img = np.transpose(img, (1, 2, 0))
 
                 pil_image = Image.fromarray(img[0:3, :, :])
-                print("The PIL Image:" pil_image, "Shape", pil_image.shape)
+                print("The PIL Image:", pil_image, "Shape", pil_image.shape)
                 # Instead of pil-image, load in as rasterio
                 # pil_image = cv2.imwrite("dummy_image.tiff", img)
                 tiff.imwrite("dummy_image.tiff", img)

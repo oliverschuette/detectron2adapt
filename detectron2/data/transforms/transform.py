@@ -138,7 +138,7 @@ class ResizeTransform(Transform):
                 img = np.transpose(img, (1, 2, 0))
 
                 # Try a direct comparision
-                pil_image = Image.fromarray(img[:, :, 0:3], mode="BGR")
+                pil_image = Image.fromarray(img[:, :, 0:3], mode="RGB")
                 print("New shape of the PIL Condition", img.shape)
                 print("The PIL Image:", pil_image, "Shape", pil_image.shape)
                 # Instead of pil-image, load in as rasterio

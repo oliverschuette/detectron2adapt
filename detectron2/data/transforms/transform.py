@@ -136,11 +136,12 @@ class ResizeTransform(Transform):
 
                 # Seems like the data is just in the wrong format
                 img = np.transpose(img, (1, 2, 0))
-
-                # Try a direct comparision
-                pil_image = Image.fromarray(img[:, :, 0:3], mode="RGB")
                 print("New shape of the PIL Condition: ", img.shape)
-                print("The PIL Image: ", pil_image, "Shape: ", pil_image.shape)
+
+                # Try a direct comparision shape = (260,260)
+                pil_image = Image.fromarray(img[:, :, 0:3], mode="RGB")
+                print("The PIL Image: ", pil_image, "New shape of the PIL Condition: ", pil_image.size)
+
                 # Instead of pil-image, load in as rasterio
                 # pil_image = cv2.imwrite("dummy_image.tiff", img)
                 tiff.imwrite("dummy_image.tiff", img)
@@ -151,6 +152,7 @@ class ResizeTransform(Transform):
                 
             print("The width and heigh values: ", self.new_w, self.new_h, "As integers:", int(self.new_w), int(self.new_h))
                 
+            # Most probabily we have to imclude the third dimension here
             pil_image = pil_image.resize((int(self.new_w), int(self.new_h)), interp_method)
             ret = np.asarray(pil_image)
             if len(img.shape) > 2 and img.shape[2] == 1:

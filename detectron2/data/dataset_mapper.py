@@ -101,6 +101,8 @@ class DatasetMapper:
             "recompute_boxes": recompute_boxes,
         }
 
+        print("The cfg Input Format", cfg.INPUT.FORMAT)
+
         if cfg.MODEL.KEYPOINT_ON:
             ret["keypoint_hflip_indices"] = utils.create_keypoint_hflip_indices(cfg.DATASETS.TRAIN)
 

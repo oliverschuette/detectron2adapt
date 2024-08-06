@@ -161,7 +161,7 @@ class DatasetMapper:
         image = utils.read_image(dataset_dict["file_name"], format="TIFF")
 
         # Change the image to satisfy the needed shape
-        image = image.transpose(2, 0, 1)
+        image = image.transpose(1, 2, 0)
         # image.shape = (260,260,6)
 
         utils.check_image_size(dataset_dict, image)

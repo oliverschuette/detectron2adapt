@@ -135,7 +135,7 @@ class DatasetMapper:
         )
 
         # Print the annos, maybe we find something here that is missed in the data
-        print("The annos in the dataset_mapper!", annos)
+        #print("The annos in the dataset_mapper!", annos)
 
         # After transforms such as cropping are applied, the bounding box may no longer
         # tightly bound the object. As an example, imagine a triangle object
@@ -182,7 +182,7 @@ class DatasetMapper:
         # Therefore it's important to use torch.Tensor.
         dataset_dict["image"] = torch.as_tensor(np.ascontiguousarray(image.transpose(2, 0, 1)))
         if sem_seg_gt is not None:
-            print("We have a sem_seg_gt available:", sem_seg_gt) # Check whether we have segments available
+            # print("We have a sem_seg_gt available:", sem_seg_gt) # Check whether we have segments available
             dataset_dict["sem_seg"] = torch.as_tensor(sem_seg_gt.astype("long"))
 
         # USER: Remove if you don't use pre-computed proposals.

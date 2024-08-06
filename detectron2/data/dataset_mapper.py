@@ -94,7 +94,7 @@ class DatasetMapper:
         ret = {
             "is_train": is_train,
             "augmentations": augs,
-            #"image_format": cfg.INPUT.FORMAT,
+            "image_format": cfg.INPUT.FORMAT,
             "use_instance_mask": cfg.MODEL.MASK_ON,
             "instance_mask_format": cfg.INPUT.MASK_FORMAT,
             "use_keypoint": cfg.MODEL.KEYPOINT_ON,

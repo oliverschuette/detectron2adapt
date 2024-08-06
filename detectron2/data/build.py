@@ -479,7 +479,7 @@ def _train_loader_from_config(cfg, mapper=None, *, dataset=None, sampler=None):
         _log_api_usage("dataset." + cfg.DATASETS.TRAIN[0])
 
     if mapper is None:
-        mapper = DatasetMapper(cfg, True, image_format = "TIFF")
+        mapper = DatasetMapper(cfg, True)
 
     if sampler is None:
         sampler_name = cfg.DATALOADER.SAMPLER_TRAIN

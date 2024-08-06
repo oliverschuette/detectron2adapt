@@ -134,6 +134,9 @@ class DatasetMapper:
             annos, image_shape, mask_format=self.instance_mask_format
         )
 
+        # Print the annos, maybe we find something here that is missed in the data
+        print("The annos in the dataset_mapper!", annos)
+
         # After transforms such as cropping are applied, the bounding box may no longer
         # tightly bound the object. As an example, imagine a triangle object
         # [(0,0), (2,0), (0,2)] cropped by a box [(1,0),(2,2)] (XYXY format). The tight
@@ -153,19 +156,25 @@ class DatasetMapper:
         """
         dataset_dict = copy.deepcopy(dataset_dict)  # it will be modified by code below
         # USER: Write your own image loading if it's not from a file
+
+        # image.shape = (6,260,260)
         image = utils.read_image(dataset_dict["file_name"], format="TIFF")
-        print("Print our image size in the dataset_Mapper: ", image.shape)
+
+        # Change the image to satisfy the needed shape
+        image = image.transpose(2, 0, 1)
+        # image.shape = (260,260,6)
+
         utils.check_image_size(dataset_dict, image)
 
         # USER: Remove if you don't do semantic/panoptic segmentation.
         if "sem_seg_file_name" in dataset_dict:
-            sem_seg_gt = utils.read_image(dataset_dict.pop("sem_seg_file_name"), "L").squeeze(2)
+            sem_seg_gt = utils.read_image(dataset_dict.pop("sem_seg_file_name"), "L").squeeze(2) # Should be fine with our current shape
         else:
             sem_seg_gt = None
 
-        aug_input = T.AugInput(image, sem_seg=sem_seg_gt)
-        transforms = self.augmentations(aug_input)
-        image, sem_seg_gt = aug_input.image, aug_input.sem_seg
+        aug_input = T.AugInput(image, sem_seg=sem_seg_gt) # Is directly connected to transform, where we changed apply image and so on
+        transforms = self.augmentations(aug_input) # Basically the same as T.AugInput
+        image, sem_seg_gt = aug_input.image, aug_input.sem_seg # But maybe just the sem_seg is missing
 
         image_shape = image.shape[:2]  # h, w
         # Pytorch's dataloader is efficient on torch.Tensor due to shared-memory,
@@ -173,6 +182,7 @@ class DatasetMapper:
         # Therefore it's important to use torch.Tensor.
         dataset_dict["image"] = torch.as_tensor(np.ascontiguousarray(image.transpose(2, 0, 1)))
         if sem_seg_gt is not None:
+            print("We have a sem_seg_gt available:", sem_seg_gt) # Check whether we have segments available
             dataset_dict["sem_seg"] = torch.as_tensor(sem_seg_gt.astype("long"))
 
         # USER: Remove if you don't use pre-computed proposals.

@@ -197,7 +197,7 @@ def check_image_size(dataset_dict, image):
     Raise an error if the image does not match the size specified in the dict.
     """
     if "width" in dataset_dict or "height" in dataset_dict:
-        image_wh = (image.shape[2], image.shape[1])
+        image_wh = (image.shape[1], image.shape[0])
         expected_wh = (dataset_dict["width"], dataset_dict["height"])
         if not image_wh == expected_wh:
             raise SizeMismatchError(

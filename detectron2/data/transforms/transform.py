@@ -123,7 +123,7 @@ class ResizeTransform(Transform):
 
                 # Seems like the data is just in the wrong format
                 #print("\nShape of PIL Condition I: ", img.shape)
-                img = np.transpose(img, (1, 2, 0))
+                #img = np.transpose(img, (1, 2, 0))
 
                 # Our loop-hole
                 pil_image = img
@@ -140,7 +140,7 @@ class ResizeTransform(Transform):
                 #print("\nShape of PIL Condition II: ", img.shape)
 
                 # Seems like the data is just in the wrong format
-                img = np.transpose(img, (1, 2, 0))
+                #img = np.transpose(img, (1, 2, 0))
                 pil_image = img
                 #print("\nNew shape of the PIL Condition: ", img.shape)
 

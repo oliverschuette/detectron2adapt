@@ -195,7 +195,7 @@ class DatasetMapper:
         if not self.is_train:
             # USER: Modify this if you want to keep them for some reason.
             dataset_dict.pop("annotations", None)
-            dataset_dict.pop("sem_seg_file_name", None)
+            # dataset_dict.pop("sem_seg_file_name", None) does this help during the segmentation (to be honest should be nothing for us)
             return dataset_dict
 
         if "annotations" in dataset_dict:

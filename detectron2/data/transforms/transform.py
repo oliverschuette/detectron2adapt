@@ -160,9 +160,9 @@ class ResizeTransform(Transform):
             #print("The interpreter method: ", interp_method)
                 
             # Most probabily we have to imclude the third dimension here
-            print("Old pil image:", pil_image.shape)
-            pil_image = pil_image.resize((int(self.new_w), int(self.new_h)), interp_method)
-            print("New pil image:", pil_image.shape)
+            #print("Old pil image:", pil_image.shape)
+            #pil_image = pil_image.resize((int(self.new_w), int(self.new_h)), interp_method)
+            #print("New pil image:", pil_image.shape)
             ret = pil_image #np.asarray(pil_image)
             if len(img.shape) > 2 and img.shape[2] == 1:
                 ret = np.expand_dims(ret, -1)

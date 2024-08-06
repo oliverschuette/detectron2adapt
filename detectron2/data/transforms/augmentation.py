@@ -340,6 +340,11 @@ class AugInput:
             self.boxes = tfm.apply_box(self.boxes)
         if self.sem_seg is not None:
             self.sem_seg = tfm.apply_segmentation(self.sem_seg)
+        print("Shape of the self.image in the augmentations.py", self.image.shape)
+        try:
+            print("Shape of the self.sem_seg in the augmentations.py", self.sem_seg.shape)
+        except:
+            print("Error: Shape of the self.sem_seg in the augmentations.py")
 
     def apply_augmentations(
         self, augmentations: List[Union[Augmentation, Transform]]

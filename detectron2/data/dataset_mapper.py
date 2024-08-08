@@ -94,14 +94,12 @@ class DatasetMapper:
         ret = {
             "is_train": is_train,
             "augmentations": augs,
-            #"image_format": cfg.INPUT.FORMAT,
+            "image_format": cfg.INPUT.FORMAT,
             "use_instance_mask": cfg.MODEL.MASK_ON,
             "instance_mask_format": cfg.INPUT.MASK_FORMAT,
             "use_keypoint": cfg.MODEL.KEYPOINT_ON,
             "recompute_boxes": recompute_boxes,
         }
-
-        print("The cfg Input Format", cfg.INPUT.FORMAT)
 
         if cfg.MODEL.KEYPOINT_ON:
             ret["keypoint_hflip_indices"] = utils.create_keypoint_hflip_indices(cfg.DATASETS.TRAIN)
@@ -134,9 +132,6 @@ class DatasetMapper:
             annos, image_shape, mask_format=self.instance_mask_format
         )
 
-        # Print the annos, maybe we find something here that is missed in the data
-        #print("The annos in the dataset_mapper!", annos)
-
         # After transforms such as cropping are applied, the bounding box may no longer
         # tightly bound the object. As an example, imagine a triangle object
         # [(0,0), (2,0), (0,2)] cropped by a box [(1,0),(2,2)] (XYXY format). The tight
@@ -156,14 +151,7 @@ class DatasetMapper:
         """
         dataset_dict = copy.deepcopy(dataset_dict)  # it will be modified by code below
         # USER: Write your own image loading if it's not from a file
-
-        # image.shape = (6,260,260)
-        image = utils.read_image(dataset_dict["file_name"], format="TIFF")
-
-        # Change the image to satisfy the needed shape
-        image = image.transpose(1, 2, 0)
-        # image.shape = (260,260,6)
-
+        image = utils.read_image(dataset_dict["file_name"], format=self.image_format)
         utils.check_image_size(dataset_dict, image)
 
         # USER: Remove if you don't do semantic/panoptic segmentation.
@@ -182,7 +170,6 @@ class DatasetMapper:
         # Therefore it's important to use torch.Tensor.
         dataset_dict["image"] = torch.as_tensor(np.ascontiguousarray(image.transpose(2, 0, 1)))
         if sem_seg_gt is not None:
-            print("We have a sem_seg_gt available:", sem_seg_gt) # Check whether we have segments available
             dataset_dict["sem_seg"] = torch.as_tensor(sem_seg_gt.astype("long"))
 
         # USER: Remove if you don't use pre-computed proposals.
@@ -195,7 +182,7 @@ class DatasetMapper:
         if not self.is_train:
             # USER: Modify this if you want to keep them for some reason.
             dataset_dict.pop("annotations", None)
-            # dataset_dict.pop("sem_seg_file_name", None) does this help during the segmentation (to be honest should be nothing for us)
+            dataset_dict.pop("sem_seg_file_name", None)
             return dataset_dict
 
         if "annotations" in dataset_dict:
